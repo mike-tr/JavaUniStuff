@@ -33,6 +33,8 @@ public class BinaryTreeHelper {
         getTreeOrder(root, order.post, true);
         getTreeOrder(root, order.in, true);
         getTreeOrder(root, order.pre, true);
+
+        InOrderIterative(root);
     }
 
     public static Node TreeFromInOrderAndPreOrder(int inorder[], int preorder[]){
@@ -72,6 +74,44 @@ public class BinaryTreeHelper {
         }
         Node root = new subTree().FindSub(0, inorder.length, 0, preorder.length);
         return root;
+    }
+
+    public static  void InOrderIterative(Node root){
+        // lets try to do it!
+
+        // the diea just loop and save nodes in a list.
+
+        ArrayList<Node> arr = new ArrayList<>();
+        ArrayList<Node> used = new ArrayList<>();
+        ArrayList<Integer> order = new ArrayList<>();
+
+        used.add(null);
+
+        Node current;
+        arr.add(root);
+
+        System.out.println("???????????????????");
+        while(arr.size() > 0){
+            current = arr.get(0);
+            if(used.contains(current.left)){
+                order.add(current.key);
+                used.add(current);
+                arr.remove(current);
+
+                if(!used.contains(current.right)){
+                    arr.add(0, current.right);
+                }
+            }else{
+                arr.add(0, current.left);
+            }
+        }
+
+        int ret[] = new int[order.size()];
+        for (int i = 0; i < order.size(); i++) {
+            ret[i] = order.get(i);
+        }
+
+        System.out.println(Arrays.toString(ret) + " " + "inorder iterative");
     }
 
     public static int[] getTreeOrder(Node root, order type, boolean log){
